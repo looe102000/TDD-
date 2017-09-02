@@ -135,7 +135,7 @@ namespace PartimeSalaryWithTdd.Tests
             var actual = target.CalculateSalary();
 
             //assert
-            var expected = 1332;
+            var expected = 1332d;
             Assert.AreEqual(expected, actual);
         }
     }
