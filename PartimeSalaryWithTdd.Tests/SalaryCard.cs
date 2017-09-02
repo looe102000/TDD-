@@ -1,12 +1,9 @@
 ﻿using PartimeSalaryWithTdd.Utility;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PartimeSalaryWithTdd.Tests
 {
-    class SalaryCard
+    internal class SalaryCard
     {
         public int HourlySalary { get; set; }
 
@@ -14,36 +11,30 @@ namespace PartimeSalaryWithTdd.Tests
 
         public DateTime EndTime { get; set; }
 
-        public int normalWorkingHourLimit { get => 8; }
+        public int NormalWorkingHourLimit { get => 8; }
 
         internal object CalculateSalary()
         {
             var workingHour = this.GetWorkingHour();
-            //int normalWorkingHourLimit = 8;
 
-            if (workingHour <= normalWorkingHourLimit)
+            if (workingHour <= NormalWorkingHourLimit)
             {
-                var result = workingHour * this.HourlySalary;
-
-                return result;
+                return workingHour * this.HourlySalary;
             }
             else
             {
+                var normalPay = NormalWorkingHourLimit * this.HourlySalary;
 
-                var normalPay = normalWorkingHourLimit * this.HourlySalary;
-
-                var overTimeHour = workingHour - normalWorkingHourLimit;
+                var overTimeHour = workingHour - NormalWorkingHourLimit;
                 double overTimePay = GetOverTimePay(workingHour);
 
-                var result = normalPay + overTimePay;
-
-                return result;
+                return normalPay + overTimePay;
             }
         }
 
         private double GetOverTimePay(double workingHour)
         {
-            var overTimeHour = workingHour - normalWorkingHourLimit;
+            var overTimeHour = workingHour - NormalWorkingHourLimit;
 
             // separate two phase of overtime hour
             var firstOverTime = overTimeHour <= 2 ? overTimeHour : 2;
@@ -53,8 +44,7 @@ namespace PartimeSalaryWithTdd.Tests
             var firstOverTimePay = firstOverTime * this.FirstOverTimeRatio * this.HourlySalary;
             var secondOverTimePay = secondOverTime * this.SecondOverTimeRatio * this.HourlySalary;
 
-            var overTimePay = firstOverTimePay + secondOverTimePay;
-            return overTimePay;
+            return firstOverTimePay + secondOverTimePay;
         }
 
         private double GetWorkingHour()
@@ -65,9 +55,7 @@ namespace PartimeSalaryWithTdd.Tests
             var morningWorkhour = DateTimeHelper.TotalHours(this.StartTime, moringEnd);
             var afternoonWorkhour = DateTimeHelper.TotalHours(afternoonStart, this.EndTime);
 
-            var workingHour = morningWorkhour + afternoonWorkhour;
-
-            return workingHour;
+            return morningWorkhour + afternoonWorkhour;
         }
 
         public double FirstOverTimeRatio { get; set; }
