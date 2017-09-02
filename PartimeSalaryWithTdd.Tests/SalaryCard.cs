@@ -17,9 +17,26 @@ namespace PartimeSalaryWithTdd.Tests
         internal object CalculateSalary()
         {
             var workingHour = this.GetWorkingHour();
-            var result = workingHour * this.HourlySalary;
+            int normalWorkingHourLimit = 8;
 
-            return result;
+            if (workingHour <= normalWorkingHourLimit)
+            {
+                var result = workingHour * this.HourlySalary;
+
+                return result;
+            }
+            else
+            {
+
+                var normalPay = normalWorkingHourLimit * this.HourlySalary;
+
+                var overTimeHour = workingHour - normalWorkingHourLimit;
+                var overTimePay = overTimeHour * this.FirstOverTimeRatio * this.HourlySalary;
+
+                var result = normalPay + overTimePay;
+
+                return result;
+            }
         }
 
         private double GetWorkingHour()
