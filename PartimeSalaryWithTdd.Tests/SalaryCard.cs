@@ -53,5 +53,6 @@ namespace PartimeSalaryWithTdd.Tests
         }
 
         public double FirstOverTimeRatio { get; set; }
+        public int SecondOverTimeRatio { get; internal set; }
     }
 }
